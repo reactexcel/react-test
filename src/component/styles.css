@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+  .mainContainer {
+    max-width: 330px;
+    margin: 0 auto;
+    background: rgba(255, 235, 235, 0.785);
+    padding: 64px;
+    margin-top: 15%;
+  }
+  .login_container {
+    margin-top: 10px;
+  }
+
+  .dashboardContainer {
+    max-width: 600px; 
+    margin: 0 auto; 
+    padding: 64px;
+    margin-top: 15%;
+    background-color: cornsilk; 
+    box-shadow: 2px;
+  }
+  .btn {
+    background-color: lightgray;
+    padding: 28px;
+    border-radius: 22px;
+    cursor: pointer;
+  }
+  .userDetails {
+    max-width: 600px;
+    margin: 0 auto; 
+    padding: 10px;
+    background-color: cornsilk; 
+    box-shadow: 2px;
+    height: 100vh;
+  }
