@@ -32,7 +32,7 @@ const SimpleUser = () => {
         <Button className="btn" onClick={()=>setShowDetails(!showDetails) }>see you document</Button>
          {
              showDetails  &&  state &&
-          <UserDetails userDetails={state} />
+          <UserDetails uid={state.uid} />
          }
       </div>
     </div>
