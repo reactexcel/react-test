@@ -7,12 +7,17 @@ import {
   Link,
   Navigate,
   Outlet,
+  unstable_HistoryRouter as HistoryRouter 
 } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import Dashboard from "./component/Dashboard";
 import SimpleUser from "./component/SimpleUser";
 import Admin from "./component/Admin";
+import { HashRouter } from "react-router-dom";
+
 
 function App() {
+  const history = createBrowserHistory({ window });
   const PrivateOutlet = () => {
     const token = localStorage.getItem("token");
     return token ? <Outlet /> : <Navigate to="/" />;
@@ -26,7 +31,7 @@ function App() {
     return userRole === "admin" ? <Outlet /> : <Navigate to="/" />;
   };
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<PrivateOutlet />}>
@@ -39,7 +44,7 @@ function App() {
           <Route path="" element={<Admin />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

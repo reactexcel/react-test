@@ -6,13 +6,14 @@ import {fetchAdminUserDetails,fetchSimpleUserDetails} from '../store/action'
 import { authentication,db } from '../firebase/config';
 import "./styles.css";
 import { getDoc,query,where,addDoc, collection,setDoc, doc  } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import UserDetails from "./UserDetails";
 const SimpleUser = () => {
   const [showDetails,setShowDetails] = useState(false);
   const dispatch=useDispatch();
   const state=useSelector((state)=>state.userDetails.simple_user_details)
   const uid = localStorage.getItem("userId");
-
+  const navigate = useNavigate();
   const userInfo = async () => {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
@@ -20,6 +21,12 @@ const SimpleUser = () => {
         dispatch(fetchSimpleUserDetails(docSnap.data()))
     }
   };
+
+  const signOut = () => {
+    localStorage.clear()
+    navigate("/");  
+    authentication.signOut()
+}
   useEffect(() => {
     userInfo();
   }, []);
@@ -28,7 +35,10 @@ const SimpleUser = () => {
   return (
     <div>
       <div className="userDetails">
-        hello simple user
+    
+        <div className="fieldContainer"> <span>   hello simple user </span> 
+       <Button onClick={signOut}> SignOut</Button>
+         </div>
         <Button className="btn" onClick={()=>setShowDetails(!showDetails) }>see you document</Button>
          {
              showDetails  &&  state &&

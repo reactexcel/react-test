@@ -10,7 +10,9 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { async } from "@firebase/util";
+import { authentication } from '../firebase/config';
+import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 const style = {
   position: "absolute",
@@ -32,9 +34,12 @@ const Admin = () => {
   );
   console.log(selectedUser, "selUser");
   const [addExtraField, setExtraField] = useState(false);
-  const [newAddress, setAddNewAddress] = useState(" ");
+  const [newField, setNewField] = useState({
+    fieldName: "",
+    fieldValue:""
+  });
   const [showDetails,setShowDetails] = useState(false);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     getAllUser();
@@ -54,7 +59,7 @@ const Admin = () => {
     try {
       const updateRef = doc(db, "users", selectedUser.uid);
       const updateRes = await updateDoc(updateRef, {
-        address: newAddress,
+        [newField.fieldName] : newField.fieldValue,
       });
 
     } catch (error) {
@@ -62,11 +67,19 @@ const Admin = () => {
     }
     handleClose()
   };
+  const signOut = () => {
+    localStorage.clear()
+    navigate("/");  
+    authentication.signOut()
+}
 
   return (
     <div>
       <div className="userDetails">
-        Hellow Admin User
+
+       <div className="fieldContainer"> <span> Hellow Admin User </span> 
+       <Button onClick={signOut}> SignOut</Button>
+         </div>
         <Grid container spacing={2} sx={{ marginTop: "10px" }}>
           {userDatas.map((item) => (
             <Grid
@@ -80,6 +93,7 @@ const Admin = () => {
                 padding: "15px",
                 backgroundColor: "lightgray",
                 borderRadius: "5px",
+                cursor:"pointer"
               }}
               onClick={() =>{
                  dispatch(fetchAdminUserDetails(item));
@@ -110,11 +124,19 @@ const Admin = () => {
       >
         <Box sx={style}>
           <div>
-            <Typography> user Address</Typography>
-            <TextField
-              fullWidth
-              onChange={(e) => setAddNewAddress(e.target.value)}
+          <div className="fieldContainer"> 
+            <Typography> Field Name</Typography>  
+          <TextField
+              onChange={(e) => setNewField({...newField,fieldName:e.target.value})}
             />
+        </div> 
+         <div className="fieldContainer">
+         <Typography> Field Value</Typography>  
+            <TextField
+              onChange={(e) => setNewField({...newField,fieldValue:e.target.value})}
+            />
+
+         </div>
           </div>
           <Button onClick={handleSubmit} fullWidth>
             {" "}
