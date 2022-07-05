@@ -1,16 +1,16 @@
-import { collection, getDocs,doc, updateDoc,onSnapshot } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import UserDetails from "./UserDetails";
-import { fetchAdminUserDetails, fetchSimpleUserDetails } from "../store/action";
+import { fetchAdminUserDetails } from "../store/action";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { authentication } from '../firebase/config';
+import { authentication } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 
@@ -24,7 +24,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: "20px",
-  padding:"14px",
+  padding: "14px",
 };
 
 const Admin = () => {
@@ -32,13 +32,12 @@ const Admin = () => {
   const selectedUser = useSelector(
     (state) => state.userDetails.admin_user_details
   );
-  console.log(selectedUser, "selUser");
   const [addExtraField, setExtraField] = useState(false);
   const [newField, setNewField] = useState({
     fieldName: "",
-    fieldValue:""
+    fieldValue: "",
   });
-  const [showDetails,setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -59,27 +58,27 @@ const Admin = () => {
     try {
       const updateRef = doc(db, "users", selectedUser.uid);
       const updateRes = await updateDoc(updateRef, {
-        [newField.fieldName] : newField.fieldValue,
+        [newField.fieldName]: newField.fieldValue,
       });
-
     } catch (error) {
-        console.log('errr',error)
+      console.log("errr", error);
     }
-    handleClose()
+    handleClose();
   };
   const signOut = () => {
-    localStorage.clear()
-    navigate("/");  
-    authentication.signOut()
-}
+    localStorage.clear();
+    navigate("/");
+    authentication.signOut();
+  };
 
   return (
     <div>
       <div className="userDetails">
-
-       <div className="fieldContainer"> <span> Hellow Admin User </span> 
-       <Button onClick={signOut}> SignOut</Button>
-         </div>
+        <div className="fieldContainer">
+          {" "}
+          <span> Hellow Admin User </span>
+          <Button onClick={signOut}> SignOut</Button>
+        </div>
         <Grid container spacing={2} sx={{ marginTop: "10px" }}>
           {userDatas.map((item) => (
             <Grid
@@ -93,11 +92,11 @@ const Admin = () => {
                 padding: "15px",
                 backgroundColor: "lightgray",
                 borderRadius: "5px",
-                cursor:"pointer"
+                cursor: "pointer",
               }}
-              onClick={() =>{
-                 dispatch(fetchAdminUserDetails(item));
-                 setShowDetails(true)
+              onClick={() => {
+                dispatch(fetchAdminUserDetails(item));
+                setShowDetails(true);
               }}
             >
               <span>{item.email}</span>
@@ -105,16 +104,14 @@ const Admin = () => {
           ))}
         </Grid>
         {selectedUser && <UserDetails uid={selectedUser.uid} />}
-         {
-          showDetails &&
-             <Button
-             sx={{ marginTop: "3px" }}
-             onClick={() => setExtraField(!addExtraField)}
-           >
-             Add Extra Field
-           </Button>
-        }
-        
+        {showDetails && (
+          <Button
+            sx={{ marginTop: "3px" }}
+            onClick={() => setExtraField(!addExtraField)}
+          >
+            Add Extra Field
+          </Button>
+        )}
       </div>
       <Modal
         open={addExtraField}
@@ -124,19 +121,22 @@ const Admin = () => {
       >
         <Box sx={style}>
           <div>
-          <div className="fieldContainer"> 
-            <Typography> Field Name</Typography>  
-          <TextField
-              onChange={(e) => setNewField({...newField,fieldName:e.target.value})}
-            />
-        </div> 
-         <div className="fieldContainer">
-         <Typography> Field Value</Typography>  
-            <TextField
-              onChange={(e) => setNewField({...newField,fieldValue:e.target.value})}
-            />
-
-         </div>
+            <div className="fieldContainer">
+              <Typography> Field Name</Typography>
+              <TextField
+                onChange={(e) =>
+                  setNewField({ ...newField, fieldName: e.target.value })
+                }
+              />
+            </div>
+            <div className="fieldContainer">
+              <Typography> Field Value</Typography>
+              <TextField
+                onChange={(e) =>
+                  setNewField({ ...newField, fieldValue: e.target.value })
+                }
+              />
+            </div>
           </div>
           <Button onClick={handleSubmit} fullWidth>
             {" "}

@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 const UserDetails = ({ uid }) => {
   const [userDetails, setUserDetails] = useState(null);
-  console.log(userDetails,'userD')
   useEffect(() => {
     getAllUser();
   }, [uid]);
@@ -19,27 +12,22 @@ const UserDetails = ({ uid }) => {
     try {
       const usersDetailsRef = doc(db, "users", uid);
       const unsubscribe = onSnapshot(usersDetailsRef, (querySnapshot) => {
-          setUserDetails(querySnapshot.data());
+        setUserDetails(querySnapshot.data());
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const userValues= userDetails? Object.values(userDetails) : null;  
-   console.log(userValues,'userV')
+  const userValues = userDetails ? Object.values(userDetails) : null;
   if (userValues) {
     return (
       <>
-      <div>
-         {
-           userValues.map((value,index) => {
-            return(
-            <p key={index}> {value}</p>
-            )
-           })
-         }
-      </div>
+        <div>
+          {userValues.map((value, index) => {
+            return <p key={index}> {value}</p>;
+          })}
+        </div>
       </>
     );
   }

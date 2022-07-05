@@ -3,7 +3,7 @@ import { useState , useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { authentication,db } from '../firebase/config';
 import "./styles.css";
-import { getDoc,query,where,addDoc, collection,setDoc, doc  } from "firebase/firestore";
+import { getDoc,doc  } from "firebase/firestore";
 import { Button } from '@mui/material';
 const Dashboard = () => {
     const [user,setUser] = useState(null)
