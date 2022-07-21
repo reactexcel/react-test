@@ -7,7 +7,10 @@ import { authentication, db } from "../firebase/config";
 import "./styles.css";
 import { getDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import UserDetails from "./UserDetails";
+// import UserDetails from "./UserDetails";
+
+import './vue-component/dist/user-detail';
+
 const SimpleUser = () => {
   const [showDetails, setShowDetails] = useState(false);
   const dispatch = useDispatch();
@@ -41,7 +44,7 @@ const SimpleUser = () => {
         <Button className="btn" onClick={() => setShowDetails(!showDetails)}>
           see you document
         </Button>
-        {showDetails && state && <UserDetails uid={state.uid} />}
+        {showDetails && state && <user-detail uid={state.uid} ></user-detail>}
       </div>
     </div>
   );
