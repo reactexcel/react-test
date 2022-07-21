@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import UserDetails from "./UserDetails";
+// import UserDetails from "./UserDetails";
 import { fetchAdminUserDetails } from "../store/action";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "@mui/material/Modal";
@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import { authentication } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
+
+import './vue-component/dist/user-detail';
 
 const style = {
   position: "absolute",
@@ -103,7 +105,7 @@ const Admin = () => {
             </Grid>
           ))}
         </Grid>
-        {selectedUser && <UserDetails uid={selectedUser.uid} />}
+        {selectedUser && <user-detail uid={selectedUser.uid}></user-detail>}
         {showDetails && (
           <Button
             sx={{ marginTop: "3px" }}
